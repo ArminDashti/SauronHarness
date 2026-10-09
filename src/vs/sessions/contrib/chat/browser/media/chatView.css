@@ -37,7 +37,8 @@
 	inset: 0 var(--session-view-content-horizontal-padding, var(--vscode-spacing-size320));
 	z-index: -1;
 	background-color: var(--vscode-editorWidget-background, var(--session-view-background));
-	border-radius: var(--vscode-cornerRadius-medium);
+	border: var(--vscode-strokeThickness) solid var(--vscode-editorWidget-border, var(--vscode-widget-border, transparent));
+	border-radius: var(--vscode-cornerRadius-large, var(--vscode-cornerRadius-medium));
 }
 
 .monaco-workbench.agent-sessions-workbench.hc-black .part.sessionspart.has-chat-background .chat-view .interactive-item-container.interactive-response::before,
@@ -253,6 +254,12 @@
 	border-color: var(--vscode-editorWidget-border, var(--vscode-widget-border));
 }
 
+/* ---- Transcript card redesign ---- */
+
+.agent-sessions-workbench .part.sessionspart .chat-view .interactive-session .interactive-item-container.interactive-request .value .rendered-markdown {
+	border-radius: var(--vscode-cornerRadius-large, var(--vscode-cornerRadius-medium));
+}
+
 /* ---- Chat Input ---- */
 
 .monaco-workbench.agent-sessions-workbench .interactive-session .chat-input-container {
@@ -279,6 +286,11 @@
 
 .agent-sessions-workbench .interactive-session .interactive-input-part .chat-editor-container .interactive-input-editor .monaco-editor .monaco-editor-background {
 	background-color: var(--vscode-agentsChatInput-background);
+}
+
+.agent-sessions-workbench .part.sessionspart .interactive-session .interactive-input-part .chat-input-container,
+.agent-sessions-workbench .chat-editor-relative .interactive-session .interactive-input-part .chat-input-container {
+	border-radius: var(--vscode-cornerRadius-large, var(--vscode-cornerRadius-medium));
 }
 
 .agent-sessions-workbench .part.sessionspart .interactive-session .interactive-input-part,

@@ -32,6 +32,8 @@ import { Codicon } from '../../../../base/common/codicons.js';
 import { ICommandService } from '../../../../platform/commands/common/commands.js';
 import { SHIDEH_OPEN_SETTINGS_COMMAND_ID } from '../common/shidehCommandIds.js';
 
+const shidehIntegratedSidebar = ContextKeyExpr.and(IsSessionsWindowContext, ShidehNavigationIntegratedContext);
+
 const SHIDEH_SIDEBAR_ACCOUNT_ACTION_ID = 'shideh.sidebarAccount';
 const SHIDEH_SIDEBAR_SETTINGS_ACTION_ID = 'shideh.sidebarSettings';
 
@@ -167,7 +169,7 @@ class ShidehSidebarSettingsWidget extends BaseActionViewItem {
 		super.render(container);
 		container.classList.add('shideh-sidebar-settings-widget');
 		container.parentElement?.classList.add('shideh-sidebar-settings-widget-item');
-		this.settingsButton = append(container, $('button.sidebar-action-button.shideh-sidebar-settings-button', { type: 'button' })) as HTMLButtonElement;
+		this.settingsButton = append(container, $('button.shideh-sidebar-settings-button', { type: 'button' })) as HTMLButtonElement;
 		this.settingsButton.setAttribute('aria-label', localize('shidehSidebarSettings', "Settings"));
 		append(this.settingsButton, $('span.codicon.codicon-settings-gear', { 'aria-hidden': 'true' }));
 		this.settingsButton.addEventListener('click', () => {
@@ -183,7 +185,7 @@ registerAction2(class ShidehSidebarAccountAction extends Action2 {
 			title: localize2('shidehSidebarSignIn', "Sign in"),
 			menu: [{
 				id: Menus.SidebarFooter,
-				when: ContextKeyExpr.and(IsSessionsWindowContext, ShidehNavigationIntegratedContext),
+				when: shidehIntegratedSidebar,
 				group: 'navigation',
 				order: 1,
 			}],
@@ -198,9 +200,10 @@ registerAction2(class ShidehSidebarSettingsAction extends Action2 {
 			id: SHIDEH_SIDEBAR_SETTINGS_ACTION_ID,
 			title: localize2('shidehSidebarSettings', "Settings"),
 			icon: Codicon.settingsGear,
+			f1: false,
 			menu: [{
 				id: Menus.SidebarFooter,
-				when: ContextKeyExpr.and(IsSessionsWindowContext, ShidehNavigationIntegratedContext),
+				when: shidehIntegratedSidebar,
 				group: 'navigation',
 				order: 2,
 			}],

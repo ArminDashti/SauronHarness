@@ -200,7 +200,7 @@ export interface ISessionSection {
 function getSessionsHeaderSection(shidehSidebar: boolean): ISessionSection {
 	return {
 		id: SESSIONS_HEADER_SECTION_ID,
-		label: shidehSidebar ? localize('repositoriesHeader', "Repositories") : localize('sessionsHeader', "Sessions"),
+		label: shidehSidebar ? localize('chatsHeader', "Chats") : localize('sessionsHeader', "Sessions"),
 		sessions: [],
 	};
 }
@@ -2429,7 +2429,6 @@ export class SessionSectionRenderer implements ITreeRenderer<SessionListItem, Fu
 		}
 		if (element.id === SHIDEH_NEW_PROJECT_SECTION_ID && shidehSidebar) {
 			template.container.classList.add('session-section-shideh-muted-action');
-			template.icon.style.display = 'none';
 		}
 		if (element.id === NEW_SESSION_SECTION_ID) {
 			template.container.classList.add('session-section-new-session');
@@ -2475,6 +2474,10 @@ export class SessionSectionRenderer implements ITreeRenderer<SessionListItem, Fu
 
 		if (element.id === SHIDEH_SEARCH_SECTION_ID) {
 			template.container.classList.add('session-section-search');
+			if (shidehSidebar) {
+				template.icon.style.display = '';
+				template.icon.className = `session-section-icon ${ThemeIcon.asClassName(Codicon.search)}`;
+			}
 			template.elementDisposables.add(autorun(reader => {
 				const active = this.findOpen.read(reader);
 				template.container.classList.toggle('active', active);
@@ -2525,16 +2528,16 @@ export class SessionSectionRenderer implements ITreeRenderer<SessionListItem, Fu
 			}
 		} else {
 			const sectionIcon = element.id === NEW_SESSION_SECTION_ID && shidehSidebar
-				? Codicon.add
+				? Codicon.comment
 				: element.id === CUSTOMIZATIONS_SECTION_ID && shidehSidebar
-					? Codicon.layoutPanel
+					? Codicon.settings
+				: element.id === SHIDEH_NEW_PROJECT_SECTION_ID && shidehSidebar
+					? Codicon.folder
 					: getSessionSectionIcon(element.id);
 			renderSessionHeaderIcon(template, element.sessions, sectionIcon, this.showUnreadInCollapsedSections, this.sessionsWithFailingCI, this.headerStatusTrigger, this.instantiationService);
 		}
 
-		template.label.textContent = element.id === SHIDEH_NEW_PROJECT_SECTION_ID && shidehSidebar
-			? localize('newProjectWithPlus', "+ New Project")
-			: shidehSidebar && element.id.startsWith('workspace:')
+		template.label.textContent = shidehSidebar && element.id.startsWith('workspace:')
 				? element.label.toLocaleUpperCase()
 				: element.label;
 		if (element.id !== CUSTOMIZATIONS_SECTION_ID) {
@@ -4974,11 +4977,13 @@ export class SessionsList extends Disposable implements ISessionsList {
 				const workspaceAndDateSections = children.filter(child => !isSessionGroupItem(child.element));
 				const projectGroups = children.filter(child => isSessionGroupItem(child.element));
 				this.setTreeChildren([
+					renderSection({ id: SHIDEH_SEARCH_SECTION_ID, label: localize('searchConversationsPlaceholder', "Search conversations..."), sessions: [] }),
 					renderSection({ id: NEW_SESSION_SECTION_ID, label: localize('newChat', "New Chat"), sessions: [] }),
-					renderSection({ id: SHIDEH_SEARCH_SECTION_ID, label: localize('search', "Search"), sessions: [] }),
 					...navigationChildren,
+					renderSection({ id: SHIDEH_PROJECTS_HEADER_SECTION_ID, label: localize('projectsHeader', "Projects"), sessions: [] }),
 					renderSection({ id: SHIDEH_NEW_PROJECT_SECTION_ID, label: localize('newProject', "New Project"), sessions: [] }),
 					...projectGroups,
+					renderSection({ id: SESSIONS_HEADER_SECTION_ID, label: localize('sessionsCaptionHeader', "Sessions"), sessions: [] }),
 					...workspaceAndDateSections,
 				]);
 			} else {

@@ -57,8 +57,15 @@ export class ShidehProviderSettingsPanel extends Disposable {
 		this.selectedId = (getShidehLmProvider(stored)?.id ?? 'openai') as ShidehLmProviderId;
 
 		const root = DOM.append(parent, $('.shideh-provider-settings'));
-		const intro = DOM.append(root, $('p.shideh-provider-settings-intro'));
-		intro.textContent = localize('shidehProviderSettingsIntro', "Choose a vendor and connect with an API key or base URL. Available models appear below after a successful connection.");
+
+		const connectionHeader = DOM.append(root, $('.shideh-provider-connection-header'));
+		const connectionTitleRow = DOM.append(connectionHeader, $('.shideh-provider-connection-title-row'));
+		const connectionIcon = DOM.append(connectionTitleRow, $('.shideh-provider-connection-icon'));
+		connectionIcon.appendChild(renderIcon(Codicon.link));
+		DOM.append(connectionTitleRow, $('h3.shideh-provider-connection-title')).textContent =
+			localize('shidehProviderConnectionTitle', "Provider Connection");
+		const connectionSubtitle = DOM.append(connectionHeader, $('p.shideh-provider-connection-subtitle'));
+		connectionSubtitle.textContent = localize('shidehProviderConnectionSubtitle', "Choose a provider and connect using an API key or base URL.");
 
 		const pickerRow = DOM.append(root, $('.shideh-provider-picker-row'));
 		const pickerLabel = DOM.append(pickerRow, $('span.shideh-provider-picker-label'));
@@ -220,9 +227,6 @@ export class ShidehProviderSettingsPanel extends Disposable {
 	private async renderFields(): Promise<void> {
 		const provider = getShidehLmProvider(this.selectedId)!;
 		this.fieldsHost.replaceChildren();
-
-		const heading = DOM.append(this.fieldsHost, $('h3.shideh-provider-fields-title'));
-		heading.textContent = provider.displayName;
 
 		await this.renderApiKeyField(provider);
 		this.renderBaseUrlField(provider);

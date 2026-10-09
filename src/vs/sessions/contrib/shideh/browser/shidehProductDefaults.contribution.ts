@@ -14,7 +14,7 @@ import { isShidehAgentsFirstProduct } from '../common/shidehProduct.js';
 import { SESSIONS_LIST_REARRANGE_TREATMENT } from '../../sessions/browser/sessionsListRearrangeExperiment.js';
 import { CustomizationMarketplaceConfiguration } from '../../../../platform/customizationMarketplace/common/customizationMarketplaceSources.js';
 import { DEFAULT_SHIDEH_MEMORY_FRAMEWORK, SHIDEH_MEMORY_FRAMEWORKS } from '../common/shidehMemoryFrameworks.js';
-import { NEW_SESSION_WELCOME_PHRASES_SETTING } from '../../chat/common/constants.js';
+import { EXPERIMENTAL_NEW_SESSION_COMPOSER_LAYOUT_SETTING, NEW_SESSION_WELCOME_PHRASES_SETTING, UNIFIED_WORKSPACE_PICKER_SETTING } from '../../chat/common/constants.js';
 
 const SHIDEH_CONFIGURATION_SECTION = 'shideh';
 
@@ -44,6 +44,8 @@ class ShidehProductDefaultsContribution implements IWorkbenchContribution {
 			[`${SHIDEH_CONFIGURATION_SECTION}.providers.selected`]: 'openai',
 			[`${SHIDEH_CONFIGURATION_SECTION}.harnesses`]: { cursorPlugin: true, deepseek: true },
 			[NEW_SESSION_WELCOME_PHRASES_SETTING]: true,
+			[UNIFIED_WORKSPACE_PICKER_SETTING]: true,
+			[EXPERIMENTAL_NEW_SESSION_COMPOSER_LAYOUT_SETTING]: true,
 			[`${SHIDEH_CONFIGURATION_SECTION}.defaultInteractionMode`]: 'build',
 		};
 
@@ -123,6 +125,26 @@ Registry.as<IConfigurationRegistry>(ConfigurationExtensions.Configuration).regis
 			type: 'boolean',
 			default: true,
 			description: localize('shideh.mcp.seedDefaults', "On first run, add Shideh's default MCP servers (Context7, GitHub, Donsetch, Sequential Thinking, SSH, Desktop Commander) to your user MCP configuration."),
+		},
+		'shideh.mcp.authentication': {
+			type: 'string',
+			enum: ['apiKey', 'none'],
+			enumDescriptions: [
+				localize('shideh.mcp.authentication.apiKey', "Authenticate MCP server connections with the Shideh MCP API key."),
+				localize('shideh.mcp.authentication.none', "Connect to MCP servers without an API key."),
+			],
+			default: 'apiKey',
+			description: localize('shideh.mcp.authentication', "How connections to MCP servers are authenticated."),
+		},
+		'shideh.mcp.allowedTransports': {
+			type: 'array',
+			items: {
+				type: 'string',
+				enum: ['stdio', 'sse', 'http'],
+			},
+			uniqueItems: true,
+			default: ['stdio', 'sse', 'http'],
+			description: localize('shideh.mcp.allowedTransports', "Transports that MCP servers are allowed to use: stdio, sse, and http."),
 		},
 		'shideh.memory.enabled': {
 			type: 'boolean',

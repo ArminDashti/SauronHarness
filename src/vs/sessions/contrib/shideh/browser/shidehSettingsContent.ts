@@ -20,7 +20,7 @@ import { AICustomizationManagementCommands, AICustomizationManagementSection } f
 import { agentIcon, hookIcon, pluginIcon, skillIcon } from '../../../../workbench/contrib/chat/browser/aiCustomization/aiCustomizationIcons.js';
 import { RemoteAgentHostCommandIds } from '../../providers/remoteAgentHost/browser/remoteAgentHostActions.js';
 import { isMacintosh, isWindows } from '../../../../base/common/platform.js';
-import { SHIDEH_CONNECT_REMOTE_AGENT_COMMAND_ID, SHIDEH_MANAGE_FAVORITE_MODELS_COMMAND_ID, SHIDEH_OPEN_STATS_COMMAND_ID, SHIDEH_TEST_NETWORK_COMMAND_ID } from '../common/shidehCommandIds.js';
+import { SHIDEH_CONNECT_REMOTE_AGENT_COMMAND_ID, SHIDEH_OPEN_STATS_COMMAND_ID, SHIDEH_TEST_NETWORK_COMMAND_ID } from '../common/shidehCommandIds.js';
 import { getShidehDefaultTerminalProfileConfigurationKey } from '../common/shidehTerminalSettings.js';
 import { SHIDEH_MEMORY_FRAMEWORKS } from '../common/shidehMemoryFrameworks.js';
 import { IInstantiationService } from '../../../../platform/instantiation/common/instantiation.js';
@@ -28,8 +28,8 @@ import { IContextViewService } from '../../../../platform/contextview/browser/co
 import { AgentsThemePicker } from './agentsThemePicker.js';
 import { renderIcon } from '../../../../base/browser/ui/iconLabel/iconLabels.js';
 import { ShidehProviderSettingsPanel } from './shidehProviderSettingsPanel.js';
-import { ShidehModelsSettingsPanel } from './shidehModelsSettingsPanel.js';
 import { ShidehHubPanel } from './shidehHubPanel.js';
+import { ShidehConnectorsPanel } from './shidehConnectorsPanel.js';
 import './media/shidehHub.css';
 
 type ShidehSettingsSectionId = 'general' | 'appearance' | 'models' | 'hub' | 'skills' | 'memory' | 'plugins' | 'agents' | 'hooks' | 'connectors' | 'terminal' | 'network' | 'system';
@@ -42,12 +42,13 @@ type ShidehSettingItem =
 	| { kind: 'string'; key: string; label: string; description?: string; placeholder?: string; icon?: ThemeIcon; colorSwatch?: boolean }
 	| { kind: 'appearance-themes' }
 	| { kind: 'lm-models-section' }
-	| { kind: 'hub-catalog' };
+	| { kind: 'hub-catalog' }
+	| { kind: 'connectors-section' };
 
 const SHIDEH_SETTINGS_SECTION_ICONS: Record<ShidehSettingsSectionId, ThemeIcon> = {
 	general: Codicon.settingsGear,
 	appearance: Codicon.colorMode,
-	models: Codicon.sparkle,
+	models: Codicon.wrench,
 	hub: Codicon.library,
 	skills: skillIcon,
 	memory: Codicon.database,
@@ -219,18 +220,15 @@ export class ShidehSettingsContent extends Disposable {
 			{
 				id: 'models',
 				label: localize('shidehSettingsSection.models', "Models"),
-				description: localize('shidehSettingsSection.modelsDesc', "Language model providers, credentials, and the catalog loaded after you connect."),
+				description: localize('shidehSettingsSection.modelsDesc', "Connect a model provider to access language models."),
 				items: [
 					{ kind: 'lm-models-section' },
-					{ kind: 'action', label: localize('shidehSettingsConnectRemote', "Connect remote agent"), description: localize('shidehSettingsConnectRemoteDesc', "Add a Cursor, OpenCode, or Devin bridge."), detail: localize('shidehSettingsConnect', "Connect"), run: () => this.commandService.executeCommand(SHIDEH_CONNECT_REMOTE_AGENT_COMMAND_ID) },
-					{ kind: 'action', label: localize('shidehSettingsModels', "Manage models"), description: localize('shidehSettingsModelsDesc', "Add providers and configure language models."), detail: localize('shidehSettingsManage', "Manage"), run: () => this.commandService.executeCommand(MANAGE_CHAT_COMMAND_ID) },
-					{ kind: 'action', label: localize('shidehSettingsFavoriteModels', "Favorite models"), description: localize('shidehSettingsFavoriteModelsDesc', "Manage bookmarked models in the picker."), detail: localize('shidehSettingsManage', "Manage"), run: () => this.commandService.executeCommand(SHIDEH_MANAGE_FAVORITE_MODELS_COMMAND_ID) },
 				],
 			},
 			{
 				id: 'hub',
 				label: localize('shidehSettingsSection.hub', "Hub"),
-				description: localize('shidehSettingsSection.hubDesc', "Skills and MCP catalogs — top sources for downloading agent customizations."),
+				description: localize('shidehSettingsSection.hubDesc', "Browse trusted catalogs for skills, MCP servers, and agent plugins."),
 				items: [
 					{ kind: 'hub-catalog' },
 				],
@@ -281,11 +279,9 @@ export class ShidehSettingsContent extends Disposable {
 			{
 				id: 'connectors',
 				label: localize('shidehSettingsSection.connectors', "Connectors"),
-				description: localize('shidehSettingsSection.connectorsDesc', "MCP servers, Copilot connectors, and Shideh default MCP seeding."),
+				description: localize('shidehSettingsSection.connectorsDesc', "MCP servers and Copilot connectors."),
 				items: [
-					{ kind: 'boolean', key: 'shideh.mcp.seedDefaults', label: localize('shidehSettingsMcpSeed', "Seed default MCP servers"), description: localize('shidehSettingsMcpSeedDesc', "Add Shideh's bundled MCP servers on first run.") },
-					{ kind: 'action', label: localize('shidehSettingsMcp', "MCP settings"), description: localize('shidehSettingsMcpDesc', "Configure MCP enablement and authentication."), detail: localize('shidehSettingsOpen', "Open"), run: () => this.preferencesService.openSettings({ query: 'mcp shideh.mcp mcpConnectorsEnabled' }) },
-					{ kind: 'action', label: localize('shidehSettingsMcpEditor', "Manage MCP servers"), description: localize('shidehSettingsMcpEditorDesc', "Edit installed MCP server definitions."), detail: localize('shidehSettingsManage', "Manage"), run: () => this.commandService.executeCommand(AICustomizationManagementCommands.OpenEditor, AICustomizationManagementSection.McpServers) },
+					{ kind: 'connectors-section' },
 				],
 			},
 			{
@@ -339,14 +335,195 @@ export class ShidehSettingsContent extends Disposable {
 	private renderSection(id: ShidehSettingsSectionId): void {
 		this.panelDisposables.clear();
 		const section = this.sections.find(s => s.id === id) ?? this.sections[0];
-		this.panelTitle.textContent = section.label;
-		this.panelDescription.textContent = section.description;
+		this.panelTitle.replaceChildren();
+		this.panelTitle.classList.toggle('shideh-settings-panel-title-with-icon', id === 'models');
+		if (id === 'models') {
+			const iconHost = DOM.append(this.panelTitle, DOM.$('.shideh-settings-panel-title-icon'));
+			iconHost.appendChild(renderIcon(SHIDEH_SETTINGS_SECTION_ICONS.models));
+			DOM.append(this.panelTitle, DOM.$('span.shideh-settings-panel-title-text')).textContent = section.label;
+		} else {
+			this.panelTitle.textContent = section.label;
+		}
+		const isHubSection = id === 'hub';
+		const isConnectorsSection = id === 'connectors';
+		const isMemorySection = id === 'memory';
+		const hasOwnHeader = isHubSection || isConnectorsSection || isMemorySection;
+		if (hasOwnHeader) {
+			this.panelTitle.textContent = '';
+			this.panelTitle.style.display = 'none';
+			this.panelDescription.textContent = '';
+			this.panelDescription.style.display = 'none';
+		} else {
+			this.panelTitle.style.display = '';
+			this.panelDescription.style.display = '';
+			this.panelDescription.textContent = section.description;
+		}
 		this.settingsListHost.classList.toggle('shideh-settings-list--overlay-friendly', id === 'models');
+		this.settingsListHost.classList.toggle('shideh-settings-list--models', id === 'models');
+		this.settingsListHost.classList.toggle('shideh-settings-list--hub', isHubSection);
+		this.settingsListHost.classList.toggle('shideh-settings-list--connectors', isConnectorsSection);
+		this.settingsListHost.classList.toggle('shideh-settings-list--memory', isMemorySection);
 		this.settingsListHost.replaceChildren();
+
+		if (isMemorySection) {
+			this.renderMemorySection(this.settingsListHost, section.description);
+			return;
+		}
 
 		for (const item of section.items) {
 			this.renderSettingItem(this.settingsListHost, item);
 		}
+	}
+
+	/**
+	 * Memory section: edits are staged in a local draft and only written to
+	 * configuration when "Save changes" is pressed. "Reset" discards the draft.
+	 */
+	private renderMemorySection(parent: HTMLElement, description: string): void {
+		const enabledKey = 'shideh.memory.enabled';
+		const frameworkKey = 'shideh.memory.framework';
+		const frameworkOptions = SHIDEH_MEMORY_FRAMEWORKS.map(framework => ({ value: framework.id, label: framework.displayName }));
+
+		let saved = {
+			enabled: this.configurationService.getValue<boolean>(enabledKey) === true,
+			framework: String(this.configurationService.getValue<string>(frameworkKey) ?? frameworkOptions[0]?.value ?? ''),
+		};
+		const draft = { ...saved };
+
+		const page = DOM.append(parent, DOM.$('.shideh-memory'));
+
+		// Header: title, description, and status badge
+		const header = DOM.append(page, DOM.$('.shideh-memory-header'));
+		const headingBlock = DOM.append(header, DOM.$('.shideh-memory-heading'));
+		const titleRow = DOM.append(headingBlock, DOM.$('.shideh-memory-title-row'));
+		DOM.append(titleRow, DOM.$('.shideh-memory-title-icon')).appendChild(renderIcon(SHIDEH_SETTINGS_SECTION_ICONS.memory));
+		DOM.append(titleRow, DOM.$('h2.shideh-memory-title')).textContent = localize('shidehSettingsSection.memoryTitle', "Memory");
+		DOM.append(headingBlock, DOM.$('p.shideh-memory-description')).textContent = description;
+		const status = DOM.append(header, DOM.$('span.shideh-memory-status'));
+
+		// Card: enable toggle and framework selector
+		const card = DOM.append(page, DOM.$('.shideh-memory-card'));
+
+		const enabledRow = DOM.append(card, DOM.$('.shideh-settings-row'));
+		DOM.append(enabledRow, DOM.$('.shideh-settings-row-icon')).appendChild(renderIcon(Codicon.database));
+		const enabledLabels = DOM.append(enabledRow, DOM.$('.shideh-settings-row-labels'));
+		DOM.append(enabledLabels, DOM.$('.shideh-settings-row-label')).textContent = localize('shidehSettingsMemoryEnabled', "Agent memory");
+		DOM.append(enabledLabels, DOM.$('.shideh-settings-row-description')).textContent = localize('shidehSettingsMemoryEnabledDesc', "Enable Shideh memory adapters for long-running sessions.");
+		const enabledControl = DOM.append(enabledRow, DOM.$('.shideh-settings-row-control'));
+		const toggle = this.panelDisposables.add(new Toggle({
+			title: localize('shidehSettingsMemoryEnabled', "Agent memory"),
+			isChecked: draft.enabled,
+			...defaultToggleStyles,
+		}));
+		toggle.domNode.classList.add('shideh-settings-toggle');
+		enabledControl.appendChild(toggle.domNode);
+
+		const frameworkRow = DOM.append(card, DOM.$('.shideh-settings-row'));
+		DOM.append(frameworkRow, DOM.$('.shideh-settings-row-icon')).appendChild(renderIcon(Codicon.layers));
+		const frameworkLabels = DOM.append(frameworkRow, DOM.$('.shideh-settings-row-labels'));
+		DOM.append(frameworkLabels, DOM.$('.shideh-settings-row-label')).textContent = localize('shidehSettingsMemoryFramework', "Memory framework");
+		DOM.append(frameworkLabels, DOM.$('.shideh-settings-row-description')).textContent = localize('shidehSettingsMemoryFrameworkDesc', "Adapter used when agent memory is enabled.");
+		const frameworkControl = DOM.append(frameworkRow, DOM.$('.shideh-settings-row-control.shideh-memory-select-control'));
+		const selectHost = DOM.append(frameworkControl, DOM.$('.shideh-memory-select'));
+		const hint = DOM.append(frameworkControl, DOM.$('.shideh-memory-select-hint'));
+		hint.textContent = localize('shidehSettingsMemoryFrameworkHint', "Enable agent memory to change this setting.");
+		const selectedIndex = Math.max(0, frameworkOptions.findIndex(option => option.value === draft.framework));
+		const select = this.panelDisposables.add(new SelectBox(
+			frameworkOptions.map(option => ({ text: option.label })),
+			selectedIndex,
+			this.contextViewService,
+			{ ...defaultSelectBoxStyles },
+			{ ariaLabel: localize('shidehSettingsMemoryFramework', "Memory framework") },
+		));
+		select.render(selectHost);
+
+		// Notice banner
+		const notice = DOM.append(page, DOM.$('.shideh-memory-notice'));
+		DOM.append(notice, DOM.$('.shideh-memory-notice-icon')).appendChild(renderIcon(Codicon.info));
+		const noticeText = DOM.append(notice, DOM.$('span.shideh-memory-notice-text'));
+
+		// Footer actions
+		const footer = DOM.append(page, DOM.$('.shideh-memory-footer'));
+		const resetButton = DOM.append(footer, DOM.$('button.shideh-memory-button')) as HTMLButtonElement;
+		resetButton.type = 'button';
+		resetButton.textContent = localize('shidehSettingsMemoryReset', "Reset");
+		const saveButton = DOM.append(footer, DOM.$('button.shideh-memory-button.shideh-memory-button--primary')) as HTMLButtonElement;
+		saveButton.type = 'button';
+		saveButton.textContent = localize('shidehSettingsMemorySave', "Save changes");
+
+		const isDirty = () => draft.enabled !== saved.enabled || draft.framework !== saved.framework;
+
+		const refresh = () => {
+			status.textContent = draft.enabled
+				? localize('shidehSettingsMemoryStatusEnabled', "Enabled")
+				: localize('shidehSettingsMemoryStatusDisabled', "Disabled");
+			status.classList.toggle('enabled', draft.enabled);
+			select.setEnabled(draft.enabled);
+			hint.style.display = draft.enabled ? 'none' : '';
+			const frameworkName = frameworkOptions.find(option => option.value === draft.framework)?.label ?? draft.framework;
+			noticeText.textContent = draft.enabled
+				? localize('shidehSettingsMemoryNoticeEnabled', "Memory is enabled. Sessions will use the {0} adapter.", frameworkName)
+				: localize('shidehSettingsMemoryNoticeDisabled', "Memory is currently disabled. Enable it to use a long-running session adapter.");
+			notice.classList.toggle('enabled', draft.enabled);
+			const dirty = isDirty();
+			resetButton.disabled = !dirty;
+			saveButton.disabled = !dirty;
+		};
+
+		this.panelDisposables.add(toggle.onChange(() => {
+			draft.enabled = toggle.checked;
+			refresh();
+		}));
+		this.panelDisposables.add(select.onDidSelect(event => {
+			const option = frameworkOptions[event.index];
+			if (option) {
+				draft.framework = option.value;
+				refresh();
+			}
+		}));
+		this.panelDisposables.add(DOM.addDisposableListener(resetButton, 'click', () => {
+			draft.enabled = saved.enabled;
+			draft.framework = saved.framework;
+			toggle.checked = draft.enabled;
+			select.select(Math.max(0, frameworkOptions.findIndex(option => option.value === draft.framework)));
+			refresh();
+		}));
+		this.panelDisposables.add(DOM.addDisposableListener(saveButton, 'click', () => {
+			const writes: Promise<void>[] = [];
+			if (draft.enabled !== saved.enabled) {
+				writes.push(this.configurationService.updateValue(enabledKey, draft.enabled));
+			}
+			if (draft.framework !== saved.framework) {
+				writes.push(this.configurationService.updateValue(frameworkKey, draft.framework));
+			}
+			void Promise.all(writes).then(() => {
+				saved = { ...draft };
+				refresh();
+			});
+		}));
+
+		refresh();
+	}
+
+	private renderModelsCardAction(parent: HTMLElement, options: { icon: ThemeIcon; label: string; description: string; run: () => void | Promise<void> }): void {
+		const row = DOM.append(parent, DOM.$('.shideh-models-card-action'));
+		const iconHost = DOM.append(row, DOM.$('.shideh-models-card-action-icon'));
+		iconHost.appendChild(renderIcon(options.icon));
+		const labels = DOM.append(row, DOM.$('.shideh-models-card-action-labels'));
+		DOM.append(labels, DOM.$('.shideh-models-card-action-label')).textContent = options.label;
+		DOM.append(labels, DOM.$('.shideh-models-card-action-description')).textContent = options.description;
+		const chevron = DOM.append(row, DOM.$('.shideh-models-card-action-chevron'));
+		chevron.appendChild(renderIcon(Codicon.chevronRight));
+		const run = () => { void options.run(); };
+		row.tabIndex = 0;
+		row.setAttribute('role', 'button');
+		this.panelDisposables.add(DOM.addDisposableListener(row, 'click', run));
+		this.panelDisposables.add(DOM.addDisposableListener(row, 'keydown', (e: KeyboardEvent) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				run();
+			}
+		}));
 	}
 
 	private renderSettingItem(parent: HTMLElement, item: ShidehSettingItem): void {
@@ -356,17 +533,34 @@ export class ShidehSettingsContent extends Disposable {
 		}
 
 		if (item.kind === 'lm-models-section') {
-			const block = DOM.append(parent, DOM.$('.shideh-settings-embedded-panel.shideh-models-unified-section'));
-			const providerHost = DOM.append(block, DOM.$('.shideh-models-unified-providers'));
-			const modelsHost = DOM.append(block, DOM.$('.shideh-models-unified-catalog'));
+			const card = DOM.append(parent, DOM.$('.shideh-models-card'));
+			const providerHost = DOM.append(card, DOM.$('.shideh-models-card-providers'));
 			this.panelDisposables.add(this.instantiationService.createInstance(ShidehProviderSettingsPanel, providerHost));
-			this.panelDisposables.add(this.instantiationService.createInstance(ShidehModelsSettingsPanel, modelsHost));
+			const actionsHost = DOM.append(card, DOM.$('.shideh-models-card-actions'));
+			this.renderModelsCardAction(actionsHost, {
+				icon: Codicon.globe,
+				label: localize('shidehSettingsConnectRemote', "Connect Remote Agent"),
+				description: localize('shidehSettingsConnectRemoteDesc', "Add a Cursor, OpenCode, or Devin bridge."),
+				run: () => this.commandService.executeCommand(SHIDEH_CONNECT_REMOTE_AGENT_COMMAND_ID),
+			});
+			this.renderModelsCardAction(actionsHost, {
+				icon: Codicon.settings,
+				label: localize('shidehSettingsModels', "Manage Models"),
+				description: localize('shidehSettingsModelsDesc', "Add providers and configure language models."),
+				run: () => this.commandService.executeCommand(MANAGE_CHAT_COMMAND_ID),
+			});
 			return;
 		}
 
 		if (item.kind === 'hub-catalog') {
 			const block = DOM.append(parent, DOM.$('.shideh-settings-embedded-panel'));
 			this.panelDisposables.add(this.instantiationService.createInstance(ShidehHubPanel, block));
+			return;
+		}
+
+		if (item.kind === 'connectors-section') {
+			const block = DOM.append(parent, DOM.$('.shideh-settings-embedded-panel'));
+			this.panelDisposables.add(this.instantiationService.createInstance(ShidehConnectorsPanel, block));
 			return;
 		}
 

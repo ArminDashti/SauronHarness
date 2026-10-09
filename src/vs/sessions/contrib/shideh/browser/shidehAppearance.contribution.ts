@@ -40,17 +40,17 @@ class ShidehAppearanceContribution extends Disposable implements IWorkbenchContr
 
 	private getSelectedPaletteColors(theme: import('../../../../workbench/services/themes/common/workbenchThemeService.js').IWorkbenchColorTheme): import('../../../../workbench/services/themes/common/workbenchThemeService.js').IColorMap {
 		const selected = this.configurationService.getValue<string>('shideh.appearance.popularTheme') ?? 'dark-modern';
-		const palettes: Record<string, { background: string; panel: string; foreground: string; border: string; accent: string }> = {
-			'dark-modern': { background: '#1f1f1f', panel: '#181818', foreground: '#cccccc', border: '#333333', accent: '#0078d4' },
-			'dark-plus': { background: '#1e1e1e', panel: '#252526', foreground: '#cccccc', border: '#3c3c3c', accent: '#007acc' },
-			abyss: { background: '#000c18', panel: '#001221', foreground: '#6688cc', border: '#0d2538', accent: '#0088ff' },
-			monokai: { background: '#272822', panel: '#1e1f1c', foreground: '#f8f8f2', border: '#414339', accent: '#a6e22e' },
-			'monokai-dimmed': { background: '#1e1e1e', panel: '#252526', foreground: '#c5c5c5', border: '#3a3a3a', accent: '#c586c0' },
-			'solarized-dark': { background: '#002b36', panel: '#073642', foreground: '#839496', border: '#164b55', accent: '#2aa198' },
-			'tomorrow-night-blue': { background: '#002451', panel: '#001b3d', foreground: '#ffffff', border: '#00346e', accent: '#bbdaff' },
-			'kimbie-dark': { background: '#221a0f', panel: '#362712', foreground: '#d3af86', border: '#4a3518', accent: '#f06431' },
-			'light-modern': { background: '#ffffff', panel: '#f8f8f8', foreground: '#3b3b3b', border: '#e5e5e5', accent: '#005fb8' },
-			'quiet-light': { background: '#f5f5f5', panel: '#ffffff', foreground: '#333333', border: '#dedede', accent: '#4876d1' },
+		const palettes: Record<string, { background: string; panel: string; foreground: string; border: string; accent: string; chatInput: string; chatInputBorder: string }> = {
+			'dark-modern': { background: '#1f1f1f', panel: '#181818', foreground: '#cccccc', border: '#333333', accent: '#0078d4', chatInput: '#262626', chatInputBorder: '#3a3a3a' },
+			'dark-plus': { background: '#1e1e1e', panel: '#252526', foreground: '#cccccc', border: '#3c3c3c', accent: '#007acc', chatInput: '#2a2a2a', chatInputBorder: '#3d3d3d' },
+			abyss: { background: '#000c18', panel: '#001221', foreground: '#6688cc', border: '#0d2538', accent: '#0088ff', chatInput: '#061828', chatInputBorder: '#143550' },
+			monokai: { background: '#272822', panel: '#1e1f1c', foreground: '#f8f8f2', border: '#414339', accent: '#a6e22e', chatInput: '#2d2e28', chatInputBorder: '#4a4b43' },
+			'monokai-dimmed': { background: '#1e1e1e', panel: '#252526', foreground: '#c5c5c5', border: '#3a3a3a', accent: '#c586c0', chatInput: '#2a2a2a', chatInputBorder: '#424242' },
+			'solarized-dark': { background: '#002b36', panel: '#073642', foreground: '#839496', border: '#164b55', accent: '#2aa198', chatInput: '#073642', chatInputBorder: '#1a5562' },
+			'tomorrow-night-blue': { background: '#002451', panel: '#001b3d', foreground: '#ffffff', border: '#00346e', accent: '#bbdaff', chatInput: '#001b3d', chatInputBorder: '#00346e' },
+			'kimbie-dark': { background: '#221a0f', panel: '#362712', foreground: '#d3af86', border: '#4a3518', accent: '#f06431', chatInput: '#2e2214', chatInputBorder: '#4a3518' },
+			'light-modern': { background: '#ffffff', panel: '#f8f8f8', foreground: '#3b3b3b', border: '#e5e5e5', accent: '#005fb8', chatInput: '#ffffff', chatInputBorder: '#d8d8d8' },
+			'quiet-light': { background: '#f5f5f5', panel: '#ffffff', foreground: '#333333', border: '#dedede', accent: '#4876d1', chatInput: '#ffffff', chatInputBorder: '#d4d4d4' },
 		};
 		const palette = palettes[selected] ?? palettes['dark-modern'];
 		return {
@@ -61,6 +61,8 @@ class ShidehAppearanceContribution extends Disposable implements IWorkbenchContr
 			'agentsCard.border': Color.fromHex(palette.border),
 			'agentsBottomPanel.border': Color.fromHex(palette.border),
 			'agentsGradient.tintColor': Color.fromHex(palette.accent),
+			'agentsChatInput.background': Color.fromHex(palette.chatInput),
+			'agentsChatInput.border': Color.fromHex(palette.chatInputBorder),
 			'sideBar.background': Color.fromHex(palette.background),
 			'sideBar.foreground': Color.fromHex(palette.foreground),
 			'editor.background': theme.getColor('editor.background') ?? Color.fromHex(palette.background),
@@ -118,6 +120,8 @@ class ShidehAppearanceContribution extends Disposable implements IWorkbenchContr
 		if (chatInputBackground) {
 			rules.push(`--shideh-chat-input-background: ${chatInputBackground};`);
 		}
+		rules.push('--shideh-chat-send-background: #c8d96a;');
+		rules.push('--shideh-chat-send-foreground: #141414;');
 
 		if (!rules.length) {
 			style.textContent = '';

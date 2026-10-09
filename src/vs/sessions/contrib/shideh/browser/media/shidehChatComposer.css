@@ -3,19 +3,201 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-/* Mode / permission row below the new-session input (Agent, Build, Manual). */
+/* Reference-style composer: one rounded card for the editor + inline controls,
+ * with workspace / usage metadata on a separate row below. */
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench {
+	--shideh-composer-radius: 16px;
+	--shideh-composer-send-background: var(--shideh-chat-send-background, #c8d96a);
+	--shideh-composer-send-foreground: var(--shideh-chat-send-foreground, #141414);
+	--chat-input-control-height: 28px;
+}
+
+/* ---- Running session chat ---- */
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .interactive-input-part .chat-input-container {
+	border-radius: var(--shideh-composer-radius);
+	border-color: var(--vscode-agentsChatInput-border, #3a3a3a);
+	background-color: var(--shideh-chat-input-background, var(--vscode-agentsChatInput-background));
+	padding: var(--vscode-spacing-size80) var(--vscode-spacing-size100) var(--vscode-spacing-size60);
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .interactive-input-part .chat-input-container.focused {
+	border-color: var(--vscode-agentsChatInput-focusBorder, var(--vscode-focusBorder));
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .interactive-input-part .chat-editor-container .monaco-editor,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .interactive-input-part .chat-editor-container .monaco-editor .monaco-editor-background {
+	background-color: transparent !important;
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbars {
+	margin-top: var(--vscode-spacing-size60);
+	padding: 0 var(--vscode-spacing-size20);
+	gap: var(--vscode-spacing-size40);
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbars > .chat-input-toolbar {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbar .chat-input-picker-item .action-label,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbar .chat-sessionPicker-item .action-label,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-secondary-toolbar .chat-input-picker-item .action-label {
+	background: transparent;
+	border: none;
+	border-radius: var(--vscode-cornerRadius-small);
+	color: var(--vscode-foreground);
+	font-size: var(--vscode-fontSize-label2, 12px);
+	padding: 0 var(--vscode-spacing-size60);
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbar .chat-input-picker-item .action-label:hover,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbar .chat-sessionPicker-item .action-label:hover,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbar .action-label[aria-expanded='true'],
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-secondary-toolbar .chat-input-picker-item .action-label:hover,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-secondary-toolbar .action-label[aria-expanded='true'] {
+	background-color: color-mix(in srgb, var(--vscode-foreground) 8%, transparent);
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbar .chat-input-picker-item .action-label.icon-only,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbar .chat-sessionPicker-item .action-label.icon-only {
+	border: var(--vscode-strokeThickness) solid color-mix(in srgb, var(--vscode-foreground) 18%, transparent);
+	border-radius: var(--vscode-cornerRadius-circle);
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbars > .chat-execute-toolbar {
+	margin-left: auto;
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbars > .chat-execute-toolbar .monaco-action-bar .action-item.chat-submit-button > .action-label {
+	width: 32px;
+	height: 32px;
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbars > .chat-execute-toolbar .monaco-action-bar .action-item.chat-submit-button:not(.disabled) > .action-label {
+	background: var(--shideh-composer-send-background);
+	color: var(--shideh-composer-send-foreground) !important;
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbars > .chat-execute-toolbar .monaco-action-bar .action-item.chat-submit-button:not(.disabled) > .action-label:hover,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-input-toolbars > .chat-execute-toolbar .monaco-action-bar .action-item.chat-submit-button:not(.disabled) > .action-label:focus-visible {
+	background: color-mix(in srgb, var(--shideh-composer-send-background) 88%, white);
+}
+
+/* Status row below the card (workspace, branch, tokens, cost). */
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-secondary-toolbar {
+	margin-top: var(--vscode-spacing-size60);
+	padding: 0 var(--vscode-spacing-size40);
+	gap: var(--vscode-spacing-size80);
+}
+
+body.shideh-simplified-chat-chrome.monaco-workbench.agent-sessions-workbench .part.sessionspart.has-chat-background .chat-view .interactive-session .chat-secondary-toolbar .action-label,
+body.shideh-simplified-chat-chrome.monaco-workbench.agent-sessions-workbench .part.sessionspart.has-chat-background .chat-view .interactive-session .chat-secondary-toolbar .chat-context-usage-widget,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-secondary-toolbar .chat-secondary-generic-chips .action-label {
+	background: transparent !important;
+	background-image: none !important;
+	border: none !important;
+	border-radius: 0;
+	color: color-mix(in srgb, var(--vscode-foreground) 62%, transparent);
+	font-size: var(--vscode-fontSize-label2, 11px);
+	padding: 0 var(--vscode-spacing-size40);
+	min-height: 20px;
+	height: auto;
+}
+
+body.shideh-simplified-chat-chrome.monaco-workbench.agent-sessions-workbench .part.sessionspart.has-chat-background .chat-view .interactive-session .chat-secondary-toolbar .action-label:not(.agent-host-mode-permissions-trigger):hover,
+body.shideh-simplified-chat-chrome.monaco-workbench.agent-sessions-workbench .part.sessionspart.has-chat-background .chat-view .interactive-session .chat-secondary-toolbar .chat-context-usage-widget:hover {
+	background-color: transparent !important;
+	background-image: none !important;
+	color: var(--vscode-foreground);
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-secondary-toolbar .chat-responsive-picker-container {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-secondary-toolbar .chat-context-usage-container,
+body.shideh-simplified-chat-chrome .agent-sessions-workbench .interactive-session .chat-secondary-toolbar .chat-input-status-container {
+	margin-left: auto;
+}
+
+/* ---- New session composer ---- */
+
+body.shideh-simplified-chat-chrome .new-chat-input-area {
+	border-radius: var(--shideh-composer-radius);
+	border-color: var(--vscode-agentsChatInput-border, #3a3a3a);
+	background-color: var(--shideh-chat-input-background, var(--vscode-agentsChatInput-background));
+}
+
+body.shideh-simplified-chat-chrome .new-chat-input-area .sessions-chat-editor {
+	margin: var(--vscode-spacing-size80) var(--vscode-spacing-size100) 0;
+}
+
+body.shideh-simplified-chat-chrome .new-chat-widget-container .sessions-chat-toolbar {
+	padding: var(--vscode-spacing-size40) var(--vscode-spacing-size100) var(--vscode-spacing-size80);
+	gap: var(--vscode-spacing-size80);
+}
+
+body.shideh-simplified-chat-chrome .new-chat-widget-container .sessions-chat-config-toolbar .action-label {
+	background: transparent;
+	border: none;
+	font-size: var(--vscode-fontSize-label2, 12px);
+}
+
+body.shideh-simplified-chat-chrome .new-chat-widget-container .sessions-chat-config-toolbar .action-label:not(.agent-host-mode-permissions-trigger):hover {
+	background-color: color-mix(in srgb, var(--vscode-foreground) 8%, transparent);
+}
+
+body.shideh-simplified-chat-chrome .new-chat-widget-container .sessions-chat-voice-toolbar .monaco-action-bar .action-item > .action-label,
+body.shideh-simplified-chat-chrome .new-chat-widget-container .sessions-chat-stt-button {
+	border: var(--vscode-strokeThickness) solid color-mix(in srgb, var(--vscode-foreground) 18%, transparent);
+	border-radius: var(--vscode-cornerRadius-circle);
+}
+
+body.shideh-simplified-chat-chrome .new-chat-widget-container .sessions-chat-toolbar .monaco-action-bar .action-item.chat-submit-button:not(.disabled) > .action-label {
+	background: var(--shideh-composer-send-background);
+	color: var(--shideh-composer-send-foreground) !important;
+}
+
+body.shideh-simplified-chat-chrome .new-chat-widget-container .sessions-chat-toolbar .monaco-action-bar .action-item.chat-submit-button:not(.disabled) > .action-label:hover {
+	background: color-mix(in srgb, var(--shideh-composer-send-background) 88%, white);
+}
+
 body.shideh-simplified-chat-chrome .new-chat-widget-container .new-chat-bottom-container .action-label,
 body.shideh-simplified-chat-chrome .new-chat-widget-container .new-chat-bottom-container .agent-host-mode-picker-button,
 body.shideh-simplified-chat-chrome .new-chat-widget-container .new-chat-bottom-container .agent-host-permissions-button {
-	font-size: calc(var(--vscode-fontSize-label2, 11px) + 1px);
+	font-size: var(--vscode-fontSize-label2, 12px);
 }
 
-/* Workspace folder, branch, and harness pills share one row in Shideh. */
+body.shideh-simplified-chat-chrome .new-session-workspace-picker-container {
+	margin-top: var(--vscode-spacing-size60);
+	padding: 0 var(--vscode-spacing-size40);
+}
+
 body.shideh-simplified-chat-chrome .new-session-workspace-picker-container .sessions-workspace-category-picker {
 	flex-wrap: wrap;
-	gap: var(--vscode-spacing-size40);
+	gap: var(--vscode-spacing-size80);
+	color: color-mix(in srgb, var(--vscode-foreground) 62%, transparent);
+	font-size: var(--vscode-fontSize-label2, 11px);
+}
+
+body.shideh-simplified-chat-chrome .new-session-workspace-picker-container .sessions-chat-picker-slot .action-label {
+	background: transparent !important;
+	border: none !important;
+	color: inherit;
+	font-size: inherit;
+	padding: 0 var(--vscode-spacing-size40);
+	min-height: 20px;
+	height: auto;
 }
 
 body.shideh-simplified-chat-chrome .new-session-workspace-picker-container .sessions-chat-session-type-picker {
 	margin-left: 0;
+}
+
+body.shideh-simplified-chat-chrome .experimental-new-session-composer .new-session-workspace-picker-container {
+	margin-top: var(--vscode-spacing-size60);
 }

@@ -3,21 +3,38 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+.shideh-hub-panel {
+	--shideh-hub-accent: var(--vscode-focusBorder, #00a3cc);
+	--shideh-hub-row-background: var(--shideh-settings-card-background, rgba(255, 255, 255, 0.03));
+}
+
 .shideh-hub-editor {
 	box-sizing: border-box;
 	padding: 24px 28px;
-	max-width: 720px;
+	max-width: 880px;
 }
 
 .shideh-hub-editor-title {
-	margin: 0 0 8px;
+	margin: 0 0 16px;
 	font-size: 22px;
 	font-weight: 600;
 	line-height: 28px;
 }
 
+.shideh-hub-header {
+	margin-bottom: 24px;
+}
+
 .shideh-hub-panel .shideh-hub-intro {
-	margin: 0 0 20px;
+	margin: 0;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 1.45;
+	color: var(--vscode-foreground);
+}
+
+.shideh-hub-intro-hint {
+	margin: 6px 0 0;
 	color: var(--vscode-descriptionForeground);
 	font-size: 13px;
 	line-height: 1.45;
@@ -27,8 +44,28 @@
 	margin-bottom: 28px;
 }
 
+.shideh-hub-subsection:last-child {
+	margin-bottom: 0;
+}
+
 .shideh-hub-subsection-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 	margin: 0 0 12px;
+}
+
+.shideh-hub-subsection-title-icon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	color: var(--shideh-hub-accent);
+}
+
+.shideh-hub-subsection-title-text {
 	font-size: 15px;
 	font-weight: 600;
 	line-height: 20px;
@@ -40,77 +77,120 @@
 	padding: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 10px;
 }
 
 .shideh-hub-source-item {
 	display: grid;
-	grid-template-columns: 28px 1fr auto;
-	gap: 12px;
-	align-items: start;
-	padding: 12px 14px;
-	border: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+	grid-template-columns: 36px minmax(0, 1fr) auto;
+	gap: 14px;
+	align-items: center;
+	padding: 14px 16px;
 	border-radius: var(--vscode-cornerRadius-medium, 8px);
-	background: var(--vscode-editor-background);
+	background: var(--shideh-hub-row-background);
 }
 
 .shideh-hub-source-rank {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 24px;
-	height: 24px;
+	box-sizing: border-box;
+	width: 32px;
+	height: 32px;
 	border-radius: 50%;
-	font-size: 12px;
+	border: 1px solid var(--shideh-hub-accent);
+	font-size: 13px;
 	font-weight: 600;
-	background: var(--vscode-badge-background);
-	color: var(--vscode-badge-foreground);
+	color: var(--shideh-hub-accent);
+	background: transparent;
+}
+
+.shideh-hub-source-body {
+	min-width: 0;
 }
 
 .shideh-hub-source-name {
+	display: block;
 	font-size: 13px;
 	font-weight: 600;
+	line-height: 1.35;
 }
 
 .shideh-hub-source-description {
 	margin: 4px 0 0;
 	font-size: 12px;
-	line-height: 1.4;
+	line-height: 1.45;
 	color: var(--vscode-descriptionForeground);
 }
 
 .shideh-hub-source-actions {
 	display: flex;
-	flex-direction: column;
-	gap: 6px;
-	align-items: stretch;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	justify-content: flex-end;
 }
 
 .shideh-hub-source-button {
-	border: 1px solid var(--vscode-button-border, transparent);
-	border-radius: var(--vscode-cornerRadius-small, 4px);
-	background: var(--vscode-button-secondaryBackground);
-	color: var(--vscode-button-secondaryForeground, var(--vscode-foreground));
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	border: 1px solid var(--vscode-widget-border, rgba(255, 255, 255, 0.12));
+	border-radius: var(--vscode-cornerRadius-small, 6px);
+	background: transparent;
+	color: var(--vscode-foreground);
 	font: inherit;
 	font-size: 12px;
-	padding: 4px 10px;
+	font-weight: 500;
+	padding: 6px 12px;
 	cursor: pointer;
 	white-space: nowrap;
 }
 
 .shideh-hub-source-button:hover {
-	background: var(--vscode-button-secondaryHoverBackground);
+	background: var(--vscode-toolbar-hoverBackground, rgba(255, 255, 255, 0.06));
 }
 
-.shideh-hub-source-button-secondary {
-	background: var(--vscode-button-background);
-	color: var(--vscode-button-foreground);
+.shideh-hub-source-button-primary {
+	border-color: transparent;
+	background: var(--shideh-hub-accent);
+	color: var(--vscode-button-foreground, #ffffff);
 }
 
-.shideh-hub-source-button-secondary:hover {
-	background: var(--vscode-button-hoverBackground);
+.shideh-hub-source-button-primary:hover {
+	filter: brightness(1.08);
+	background: var(--shideh-hub-accent);
+}
+
+.shideh-hub-source-button-icon {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+}
+
+.shideh-hub-source-button-primary .shideh-hub-source-button-icon {
+	color: inherit;
+}
+
+.shideh-settings-embedded-panel .shideh-hub-panel .shideh-hub-header {
+	margin-bottom: 20px;
 }
 
 .shideh-settings-embedded-panel .shideh-hub-panel .shideh-hub-intro {
-	margin-top: 0;
+	font-size: 14px;
+}
+
+@media (max-width: 720px) {
+	.shideh-hub-source-item {
+		grid-template-columns: 32px minmax(0, 1fr);
+		grid-template-rows: auto auto;
+	}
+
+	.shideh-hub-source-actions {
+		grid-column: 1 / -1;
+		justify-content: flex-start;
+		padding-left: 46px;
+	}
 }

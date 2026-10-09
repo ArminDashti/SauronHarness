@@ -14,6 +14,18 @@ Shideh supports five popular memory framework adapters: **Mem0**, **Zep**, **Lan
 
 On first run, Shideh seeds your user MCP configuration with: **context7**, **github**, **donsetch**, **sequential-thinking**, **ssh-mcp**, and **desktop-commander** (disable with `shideh.mcp.seedDefaults`: false).
 
+## Connectors
+
+**Settings → Connectors** shows:
+
+- **Add MCP server**: runs `workbench.mcp.addConfiguration`.
+- **MCP settings** (collapsible): **Enable MCP** toggles `chat.mcp.access` between `all` and `none`; **Authentication** maps to `shideh.mcp.authentication` (`apiKey` or `none`); **API Key** is stored in secret storage under `shideh.mcp.apiKey`, not in settings.json; **Allowed transports** maps to `shideh.mcp.allowedTransports` (`stdio`, `sse`, `http`); **Advanced options** opens the `shideh.mcp` settings.
+- **Manage MCP servers**: shows the registered server count and opens the MCP server editor.
+
+## Agents chat transcript
+
+The Agents window chat uses rounded, bordered response cards (`cornerRadius-large`), rounded request bubbles, and a reference-style composer: one dark rounded input card with inline controls (+, mode, model, permissions, olive send) and a separate muted status row underneath (workspace, branch, token/cost). Shideh-specific composer styling lives in `src/vs/sessions/contrib/shideh/browser/media/shidehChatComposer.css`; shared transcript tweaks are in `src/vs/sessions/contrib/chat/browser/media/chatView.css`. Visual-only; no DOM or behavior changes.
+
 ## Modes
 
 Use **Ask**, **Build**, or **Plan** from the session toolbar, or set `shideh.defaultInteractionMode`.

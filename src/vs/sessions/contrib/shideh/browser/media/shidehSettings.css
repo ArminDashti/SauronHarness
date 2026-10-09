@@ -217,6 +217,25 @@
 	line-height: 26px;
 }
 
+.shideh-settings-panel-title-with-icon {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 8px;
+}
+
+.shideh-settings-panel-title-icon {
+	display: flex;
+	flex-shrink: 0;
+	color: var(--vscode-focusBorder, #0078d4);
+}
+
+.shideh-settings-panel-title-text {
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 28px;
+}
+
 .shideh-settings-panel p.shideh-settings-description {
 	margin: 0 0 16px;
 	color: var(--vscode-descriptionForeground);
@@ -233,6 +252,244 @@
 
 .shideh-settings-list.shideh-settings-list--overlay-friendly {
 	overflow: visible;
+}
+
+.shideh-settings-list.shideh-settings-list--models {
+	border: none;
+	background: transparent;
+	overflow: visible;
+}
+
+.shideh-settings-list.shideh-settings-list--hub {
+	border: none;
+	background: transparent;
+	overflow: visible;
+}
+
+.shideh-settings-list.shideh-settings-list--connectors {
+	border: none;
+	background: transparent;
+	overflow: visible;
+}
+
+/* Connectors */
+
+.shideh-connectors {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.shideh-connectors-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 8px;
+}
+
+.shideh-connectors-title {
+	margin: 0 0 6px;
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 28px;
+}
+
+.shideh-connectors-subtitle {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--vscode-descriptionForeground);
+}
+
+.shideh-connectors-add-button {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	gap: 6px;
+	border: none;
+	border-radius: 6px;
+	padding: 8px 14px;
+	background: var(--vscode-button-background);
+	color: var(--vscode-button-foreground);
+	font: inherit;
+	font-size: 13px;
+	font-weight: 500;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.shideh-connectors-add-button:hover {
+	background: var(--vscode-button-hoverBackground);
+}
+
+.shideh-connectors-card {
+	border: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+	border-radius: 10px;
+	background: var(--shideh-settings-card-background, rgba(255, 255, 255, 0.02));
+	overflow: hidden;
+}
+
+.shideh-connectors-card-header {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 18px 20px;
+}
+
+.shideh-connectors-card-header--interactive {
+	cursor: pointer;
+}
+
+.shideh-connectors-card-header--interactive:hover {
+	background: var(--vscode-list-hoverBackground);
+}
+
+.shideh-connectors-card-header--interactive:focus-visible {
+	outline: 1px solid var(--vscode-focusBorder);
+	outline-offset: -1px;
+}
+
+.shideh-connectors-card-icon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: var(--vscode-input-background, rgba(255, 255, 255, 0.04));
+	color: var(--vscode-textLink-foreground, #3b82f6);
+	font-size: 18px;
+}
+
+.shideh-connectors-card-labels {
+	flex: 1;
+	min-width: 0;
+}
+
+.shideh-connectors-card-title {
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 20px;
+}
+
+.shideh-connectors-card-description {
+	margin-top: 2px;
+	font-size: 12px;
+	line-height: 16px;
+	color: var(--vscode-descriptionForeground);
+}
+
+.shideh-connectors-card-chevron {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	color: var(--vscode-descriptionForeground);
+}
+
+.shideh-connectors-card-body {
+	margin: 0 16px 16px;
+	border: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.shideh-connectors-card-body--hidden {
+	display: none;
+}
+
+.shideh-connectors-badge {
+	flex-shrink: 0;
+	padding: 4px 12px;
+	border-radius: 999px;
+	background: rgba(34, 197, 94, 0.14);
+	color: #4ade80;
+	font-size: 12px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.shideh-connectors-help {
+	display: inline-flex;
+	margin-left: 6px;
+	vertical-align: middle;
+	color: var(--vscode-descriptionForeground);
+	font-size: 12px;
+	cursor: help;
+}
+
+.shideh-connectors-toggle-label {
+	font-size: 13px;
+	color: var(--vscode-foreground);
+}
+
+.shideh-connectors-key-control {
+	min-width: 0;
+	max-width: none;
+	gap: 6px;
+}
+
+.shideh-connectors-key-input {
+	width: 300px;
+	max-width: 100%;
+}
+
+.shideh-connectors-icon-button,
+.shideh-connectors-copy-button {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	height: 28px;
+	border: 1px solid var(--vscode-input-border, var(--vscode-widget-border));
+	border-radius: 6px;
+	background: var(--vscode-input-background, transparent);
+	color: var(--vscode-foreground);
+	font: inherit;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.shideh-connectors-icon-button {
+	width: 32px;
+}
+
+.shideh-connectors-copy-button {
+	padding: 0 14px;
+}
+
+.shideh-connectors-icon-button:hover,
+.shideh-connectors-copy-button:hover {
+	background: var(--vscode-list-hoverBackground);
+}
+
+.shideh-connectors-icon-button:focus-visible,
+.shideh-connectors-copy-button:focus-visible {
+	outline: 1px solid var(--vscode-focusBorder);
+	outline-offset: 1px;
+}
+
+.shideh-connectors-transports {
+	gap: 22px;
+}
+
+.shideh-connectors-transport {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.shideh-connectors-transport input[type='checkbox'] {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	accent-color: var(--vscode-button-background);
+	cursor: pointer;
 }
 
 .shideh-settings-row {
@@ -372,6 +629,173 @@
 	color: var(--vscode-textLink-foreground);
 }
 
+/* Memory */
+
+.shideh-settings-list.shideh-settings-list--memory {
+	border: none;
+	background: transparent;
+	overflow: visible;
+}
+
+.shideh-memory {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+	max-width: 760px;
+	box-sizing: border-box;
+}
+
+.shideh-memory-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.shideh-memory-heading {
+	min-width: 0;
+}
+
+.shideh-memory-title-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.shideh-memory-title-icon {
+	display: flex;
+	flex-shrink: 0;
+	color: var(--vscode-foreground);
+	font-size: 22px;
+}
+
+.shideh-memory-title {
+	margin: 0;
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 28px;
+}
+
+.shideh-memory-description {
+	margin: 6px 0 0;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--vscode-descriptionForeground);
+}
+
+.shideh-memory-status {
+	flex-shrink: 0;
+	padding: 4px 12px;
+	border: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+	border-radius: 6px;
+	background: var(--vscode-badge-background, rgba(255, 255, 255, 0.06));
+	color: var(--vscode-descriptionForeground);
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.shideh-memory-status.enabled {
+	border-color: rgba(34, 197, 94, 0.4);
+	background: rgba(34, 197, 94, 0.14);
+	color: #4ade80;
+}
+
+.shideh-memory-card {
+	border: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+	border-radius: 8px;
+	background: var(--shideh-settings-card-background, rgba(255, 255, 255, 0.02));
+	overflow: hidden;
+}
+
+.shideh-memory-card .shideh-settings-row {
+	min-height: 64px;
+	padding: 14px 16px;
+}
+
+.shideh-memory-select-control {
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 4px;
+	min-width: 220px;
+}
+
+.shideh-memory-select {
+	width: 220px;
+}
+
+.shideh-memory-select-hint {
+	font-size: 11px;
+	color: var(--vscode-descriptionForeground);
+	text-align: right;
+}
+
+.shideh-memory-notice {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 16px;
+	border: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+	border-radius: 8px;
+	background: var(--shideh-settings-card-background, rgba(255, 255, 255, 0.02));
+	color: var(--vscode-foreground);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.shideh-memory-notice-icon {
+	display: flex;
+	flex-shrink: 0;
+	color: var(--vscode-descriptionForeground);
+}
+
+.shideh-memory-notice-text {
+	min-width: 0;
+}
+
+.shideh-memory-footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-top: 4px;
+}
+
+.shideh-memory-button {
+	min-width: 96px;
+	padding: 8px 16px;
+	border: 1px solid var(--vscode-button-border, var(--vscode-widget-border, transparent));
+	border-radius: 6px;
+	background: var(--vscode-button-secondaryBackground, transparent);
+	color: var(--vscode-button-secondaryForeground, var(--vscode-foreground));
+	font: inherit;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.shideh-memory-button:hover:not(:disabled) {
+	background: var(--vscode-button-secondaryHoverBackground, var(--vscode-list-hoverBackground));
+}
+
+.shideh-memory-button--primary {
+	border: none;
+	background: var(--vscode-button-background);
+	color: var(--vscode-button-foreground);
+}
+
+.shideh-memory-button--primary:hover:not(:disabled) {
+	background: var(--vscode-button-hoverBackground);
+}
+
+.shideh-memory-button:disabled {
+	opacity: 0.5;
+	cursor: default;
+}
+
+.shideh-memory-button:focus-visible {
+	outline: 1px solid var(--vscode-focusBorder);
+	outline-offset: 1px;
+}
+
 .agents-theme-picker {
 	width: 100%;
 	padding: 16px;
@@ -465,15 +889,14 @@
 }
 
 .shideh-settings-embedded-panel {
-	padding: 14px;
-	border-bottom: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
-}
-
-.shideh-settings-embedded-panel:last-child {
+	padding: 0;
 	border-bottom: none;
 }
 
-.shideh-provider-settings-intro,
+.shideh-settings-list--hub .shideh-settings-embedded-panel {
+	padding: 0;
+}
+
 .shideh-models-settings-intro {
 	margin: 0 0 12px;
 	font-size: 12px;
@@ -481,27 +904,131 @@
 	color: var(--vscode-descriptionForeground);
 }
 
-.shideh-provider-picker-row {
+.shideh-models-card {
+	border: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+	border-radius: 10px;
+	overflow: visible;
+	background: var(--shideh-settings-card-background, rgba(255, 255, 255, 0.02));
+}
+
+.shideh-models-card-providers {
+	padding: 18px 18px 16px;
+}
+
+.shideh-models-card-actions {
+	border-top: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+}
+
+.shideh-models-card-action {
 	display: flex;
 	align-items: center;
 	gap: 12px;
+	min-height: 64px;
+	padding: 12px 18px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.shideh-models-card-action + .shideh-models-card-action {
+	border-top: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
+}
+
+.shideh-models-card-action:hover {
+	background: var(--vscode-list-hoverBackground);
+}
+
+.shideh-models-card-action:focus-visible {
+	outline: 1px solid var(--vscode-focusBorder);
+	outline-offset: -1px;
+}
+
+.shideh-models-card-action-icon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	color: var(--vscode-focusBorder, #0078d4);
+}
+
+.shideh-models-card-action-labels {
+	flex: 1;
+	min-width: 0;
+}
+
+.shideh-models-card-action-label {
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 18px;
+}
+
+.shideh-models-card-action-description {
+	margin-top: 2px;
+	font-size: 12px;
+	line-height: 16px;
+	color: var(--vscode-descriptionForeground);
+}
+
+.shideh-models-card-action-chevron {
+	display: flex;
+	flex-shrink: 0;
+	opacity: 0.55;
+}
+
+.shideh-provider-connection-header {
 	margin-bottom: 16px;
 }
 
+.shideh-provider-connection-title-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 4px;
+}
+
+.shideh-provider-connection-icon {
+	display: flex;
+	flex-shrink: 0;
+	color: var(--vscode-focusBorder, #0078d4);
+}
+
+.shideh-provider-connection-title {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 20px;
+}
+
+.shideh-provider-connection-subtitle {
+	margin: 0;
+	font-size: 12px;
+	line-height: 1.45;
+	color: var(--vscode-descriptionForeground);
+}
+
+.shideh-provider-picker-row {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 6px;
+	margin-bottom: 14px;
+}
+
 .shideh-provider-picker-label {
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 500;
-	min-width: 72px;
 }
 
 .shideh-provider-picker-trigger {
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	min-width: 220px;
-	padding: 6px 10px;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 8px 10px;
 	border: 1px solid var(--vscode-button-border, var(--vscode-panel-border));
-	border-radius: var(--vscode-cornerRadius-small, 4px);
+	border-radius: 6px;
 	background: var(--vscode-input-background);
 	color: var(--vscode-foreground);
 	font: inherit;
@@ -611,19 +1138,13 @@
 .shideh-provider-fields {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
-}
-
-.shideh-provider-fields-title {
-	margin: 0;
-	font-size: 14px;
-	font-weight: 600;
+	gap: 12px;
 }
 
 .shideh-provider-field-row {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 6px;
 }
 
 .shideh-provider-field-label {
@@ -634,10 +1155,9 @@
 .shideh-provider-field-input {
 	box-sizing: border-box;
 	width: 100%;
-	max-width: 480px;
-	padding: 6px 8px;
+	padding: 8px 10px;
 	border: 1px solid var(--vscode-input-border, var(--vscode-panel-border));
-	border-radius: var(--vscode-cornerRadius-small, 4px);
+	border-radius: 6px;
 	background: var(--vscode-input-background);
 	color: var(--vscode-input-foreground);
 	font: inherit;
@@ -653,11 +1173,10 @@
 .shideh-provider-field-textarea {
 	box-sizing: border-box;
 	width: 100%;
-	max-width: 480px;
 	min-height: 72px;
-	padding: 6px 8px;
+	padding: 8px 10px;
 	border: 1px solid var(--vscode-input-border, var(--vscode-panel-border));
-	border-radius: var(--vscode-cornerRadius-small, 4px);
+	border-radius: 6px;
 	background: var(--vscode-input-background);
 	color: var(--vscode-input-foreground);
 	font: inherit;
@@ -666,21 +1185,10 @@
 }
 
 .shideh-provider-env-note {
-	margin: 4px 0 0;
+	margin: 0;
 	font-size: 11px;
+	line-height: 1.45;
 	color: var(--vscode-descriptionForeground);
-}
-
-.shideh-models-unified-section {
-	display: flex;
-	flex-direction: column;
-	gap: 0;
-}
-
-.shideh-models-unified-catalog {
-	margin-top: 16px;
-	padding-top: 16px;
-	border-top: 1px solid var(--vscode-widget-border, var(--vscode-panel-border));
 }
 
 .shideh-models-settings-heading {

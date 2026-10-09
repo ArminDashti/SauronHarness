@@ -3,24 +3,97 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+body.shideh-navigation-sidebar .agent-sessions-workbench {
+	--shideh-nexus-accent: #6d8dff;
+	--shideh-nexus-sidebar-bg: #0d1117;
+	--shideh-nexus-surface: #161b24;
+	--shideh-nexus-active: #1d2750;
+	--shideh-nexus-muted: color-mix(in srgb, var(--vscode-foreground) 55%, transparent);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .content {
+	background-color: var(--shideh-nexus-sidebar-bg);
+}
+
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .composite.title {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	min-height: 36px;
-	padding: 4px 8px 2px;
+	min-height: 44px;
+	padding: 8px 12px 4px;
 	box-sizing: border-box;
+	border-bottom: none;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .composite.title > .global-actions-left {
-	flex: 0 0 auto;
+	flex: 1 1 auto;
 	order: -1;
+	min-width: 0;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .composite.title > .global-actions-left .action-item:not(:has(.shideh-sidebar-brand-widget)) {
+	display: none;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-brand-widget {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	padding: 0;
+	pointer-events: none;
+	user-select: none;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-brand-mark {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	color: var(--shideh-nexus-accent);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-brand-name {
+	font-size: 15px;
+	font-weight: var(--vscode-fontWeight-semiBold, 600);
+	color: var(--vscode-sideBar-foreground, var(--vscode-foreground));
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .composite.title > .global-actions {
-	flex: 1 1 auto;
+	flex: 0 0 auto;
 	display: flex;
 	justify-content: flex-end;
+	margin-left: auto;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-title-toggle-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 1px solid color-mix(in srgb, var(--vscode-foreground) 12%, transparent);
+	border-radius: var(--vscode-cornerRadius-small, 6px);
+	background: transparent;
+	color: var(--shideh-nexus-muted);
+	cursor: pointer;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-title-toggle-button:hover {
+	background-color: color-mix(in srgb, var(--vscode-foreground) 8%, transparent);
+	color: var(--vscode-icon-foreground);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-title-toggle-button .codicon {
+	font-size: 16px;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .composite.title > .global-actions .action-item:not(:has(.shideh-sidebar-title-toggle-widget)) {
+	display: none;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .composite.title > .global-actions .monaco-action-bar .actions-container {
@@ -30,20 +103,30 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .compos
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .sidebar-footer {
 	flex-direction: row;
 	align-items: center;
-	gap: 8px;
-	padding: 8px 10px 10px;
+	gap: 0;
+	padding: 8px 12px 12px;
 	margin: 0;
-	border-top: 1px solid var(--vscode-sideBarSectionHeader-border, color-mix(in srgb, var(--vscode-foreground) 8%, transparent));
+	border-top: 1px solid color-mix(in srgb, var(--vscode-foreground) 10%, transparent);
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .sidebar-footer .monaco-toolbar,
-body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .sidebar-footer .monaco-action-bar,
+body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .sidebar-footer .monaco-action-bar {
+	flex: 1;
+	min-width: 0;
+	width: 100%;
+}
+
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .sidebar-footer .actions-container {
 	flex-direction: row;
 	align-items: center;
-	width: auto;
+	gap: 4px;
+	width: 100%;
 	flex: 1;
 	min-width: 0;
+	box-sizing: border-box;
+	padding: 8px 4px;
+	border-radius: 10px;
+	background-color: transparent;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .sidebar-footer .action-item {
@@ -69,8 +152,24 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-setting
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 4px 6px;
-	min-width: 28px;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	border: none;
+	border-radius: var(--vscode-cornerRadius-small, 6px);
+	background: transparent;
+	color: var(--shideh-nexus-muted);
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-settings-widget .shideh-sidebar-settings-button:hover {
+	background-color: color-mix(in srgb, var(--vscode-foreground) 8%, transparent);
+	color: var(--vscode-icon-foreground);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-settings-widget .shideh-sidebar-settings-button .codicon {
+	font-size: 16px;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .part.sidebar > .sidebar-footer-metrics {
@@ -85,11 +184,30 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-account
 body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-account-widget .account-widget-account-button {
 	display: flex;
 	align-items: center;
-	gap: 8px;
-	padding: 4px 6px;
+	gap: 10px;
+	padding: 0;
 	min-width: 0;
 	width: 100%;
 	text-align: left;
+	border-radius: var(--vscode-cornerRadius-small, 6px);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-account-widget .account-widget-account-button:hover {
+	background-color: color-mix(in srgb, var(--vscode-foreground) 6%, transparent);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-account-fallback-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	border: 1px solid color-mix(in srgb, var(--vscode-foreground) 28%, transparent);
+	color: var(--shideh-nexus-muted);
+	font-size: 16px;
+	box-sizing: border-box;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-account-avatar {
@@ -121,7 +239,8 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-account
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	font-size: var(--vscode-fontSize-label1, 12px);
+	font-size: 13px;
+	line-height: 1.25;
 	font-weight: var(--vscode-fontWeight-semiBold, 600);
 	color: var(--vscode-sideBar-foreground, var(--vscode-foreground));
 }
@@ -130,33 +249,75 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .shideh-sidebar-account
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	font-size: var(--vscode-fontSize-small, 11px);
+	font-size: 12px;
+	line-height: 1.25;
 	font-weight: var(--vscode-fontWeight-regular, 400);
-	color: var(--vscode-descriptionForeground);
+	color: var(--shideh-nexus-muted);
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control {
-	padding: 0 8px 8px;
+	padding: 4px 12px 12px;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shideh-group-header {
-	display: none !important;
+	padding: 14px 4px 6px;
+	pointer-events: none;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .monaco-list-row:has(.session-section-shideh-group-header) {
+	background: transparent !important;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shideh-group-header .session-section-label {
+	font-size: var(--vscode-fontSize-small, 11px);
+	font-weight: var(--vscode-fontWeight-semiBold, 600);
+	color: var(--shideh-nexus-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shideh-muted-action {
 	font-weight: var(--vscode-fontWeight-regular, 400);
-	color: var(--vscode-descriptionForeground);
-	padding-left: 10px;
+	color: var(--vscode-sideBar-foreground, var(--vscode-foreground));
+	padding: 10px 12px;
+	border-radius: var(--vscode-cornerRadius-medium, 10px);
+	background-color: var(--shideh-nexus-surface);
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shideh-muted-action .session-section-icon {
-	display: none !important;
+	display: flex !important;
+	align-items: center;
+	margin-right: 10px;
+	font-size: 16px;
+	color: var(--vscode-icon-foreground);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shideh-muted-action::after {
+	content: '+';
+	margin-left: auto;
+	font-size: 18px;
+	line-height: 1;
+	color: var(--shideh-nexus-muted);
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shortcut {
 	font-weight: var(--vscode-fontWeight-regular, 400);
 	color: var(--vscode-sideBar-foreground, var(--vscode-foreground));
-	padding: 4px 10px;
+	padding: 7px 8px;
+	border-radius: var(--vscode-cornerRadius-small, 6px);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-customizations .session-section-count-badge .monaco-count-badge {
+	min-width: 20px;
+	height: 20px;
+	padding: 0 6px;
+	border-radius: var(--vscode-cornerRadius-circle, 999px);
+	background-color: var(--shideh-nexus-accent);
+	color: #0d1117;
+	font-size: 11px;
+	font-weight: var(--vscode-fontWeight-semiBold, 600);
+	border: none;
+	margin-left: auto;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shortcut .session-section-icon {
@@ -170,26 +331,52 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control 
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-new-session {
-	margin: 4px 4px 8px;
-	padding: 8px 10px;
-	border-radius: var(--vscode-cornerRadius-medium, 8px);
-	background-color: color-mix(in srgb, var(--vscode-foreground) 8%, transparent);
+	margin: 4px 0 2px;
+	padding: 10px 12px;
+	border-radius: var(--vscode-cornerRadius-medium, 10px);
+	background-color: var(--shideh-nexus-active);
+	justify-content: flex-start;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-new-session.active,
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-new-session:hover {
+	background-color: var(--shideh-nexus-active);
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-new-session .session-section-icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 20px;
-	height: 20px;
-	margin-right: 8px;
-	border-radius: 50%;
-	background-color: color-mix(in srgb, var(--vscode-foreground) 12%, transparent);
-	font-size: 14px;
+	width: auto;
+	height: auto;
+	margin-right: 10px;
+	border-radius: 0;
+	background-color: transparent;
+	font-size: 18px;
+	color: var(--shideh-nexus-accent);
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-new-session .session-section-label {
 	font-weight: var(--vscode-fontWeight-semiBold, 600);
+	color: var(--vscode-sideBar-foreground, var(--vscode-foreground));
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-search {
+	margin: 0 0 10px;
+	padding: 9px 14px;
+	border-radius: 999px;
+	background-color: var(--shideh-nexus-surface);
+	border: 1px solid color-mix(in srgb, var(--vscode-foreground) 10%, transparent);
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-search .session-section-icon {
+	color: var(--shideh-nexus-muted);
+	margin-right: 8px;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-search .session-section-label {
+	color: var(--shideh-nexus-muted);
+	font-weight: var(--vscode-fontWeight-regular, 400);
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-new-session .session-section-keybinding {
@@ -294,6 +481,13 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control 
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section .session-section-new-badge {
 	display: none !important;
+}
+
+body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-customizations .session-section-label-container {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	min-width: 0;
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .agent-sessions-viewpane .agent-sessions-header-container > .agent-sessions-header-row:not(:has(.agent-sessions-find-widget-container *)) {
