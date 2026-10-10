@@ -260,7 +260,7 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control 
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shideh-group-header {
-	padding: 14px 4px 6px;
+	padding: 18px 6px 8px;
 	pointer-events: none;
 }
 
@@ -303,7 +303,8 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-shortcut {
 	font-weight: var(--vscode-fontWeight-regular, 400);
 	color: var(--vscode-sideBar-foreground, var(--vscode-foreground));
-	padding: 7px 8px;
+	padding: 9px 10px;
+	margin: 2px 0;
 	border-radius: var(--vscode-cornerRadius-small, 6px);
 }
 
@@ -331,8 +332,8 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control 
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-new-session {
-	margin: 4px 0 2px;
-	padding: 10px 12px;
+	margin: 4px 0 6px;
+	padding: 11px 14px;
 	border-radius: var(--vscode-cornerRadius-medium, 10px);
 	background-color: var(--shideh-nexus-active);
 	justify-content: flex-start;
@@ -362,8 +363,8 @@ body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control 
 }
 
 body.shideh-navigation-sidebar .agent-sessions-workbench .sessions-list-control .session-section.session-section-search {
-	margin: 0 0 10px;
-	padding: 9px 14px;
+	margin: 0 0 14px;
+	padding: 10px 14px;
 	border-radius: 999px;
 	background-color: var(--shideh-nexus-surface);
 	border: 1px solid color-mix(in srgb, var(--vscode-foreground) 10%, transparent);
