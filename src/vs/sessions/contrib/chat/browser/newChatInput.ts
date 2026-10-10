@@ -1098,7 +1098,7 @@ export class NewChatInputWidget extends Disposable implements IHistoryNavigation
 			ariaLabel: this._getAriaLabel(),
 			placeholder: this.options.placeholder ?? getRandomChatInputPlaceholder(),
 			fontFamily: NEW_CHAT_INPUT_FONT_FAMILY,
-			fontSize: 13,
+			fontSize: 15,
 			lineHeight: 20,
 			cursorWidth: 1,
 			padding: { top: 8, bottom: 2 },
