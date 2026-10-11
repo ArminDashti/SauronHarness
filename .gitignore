@@ -61,3 +61,18 @@ dist
 # generated: graphify cache and Cursor hook state
 graphify-out/
 .cursor/hooks/state/
+
+# hygiene
+build/
+bin/
+obj/
+.venv/
+__pycache__/
+*.log
+logs/
+.env
+.env.*
+*.zip
+*.7z
+.gitnexus/
+!.env.example
